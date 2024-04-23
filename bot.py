@@ -70,6 +70,60 @@ async def ping(ctx):
     latency = round(bot.latency * 1000)  # Convert to milliseconds
     await ctx.send(f'Pong! Latency: {latency}ms')
 
+# Command to add a role to a member
+@bot.command()
+@commands.has_permissions(manage_roles=True)
+async def add_role(ctx, member: discord.Member, role: discord.Role):
+    await member.add_roles(role)
+    await ctx.send(f"{member.mention} has been given the {role.name} role.")
+
+# Command to remove a role from a member
+@bot.command()
+@commands.has_permissions(manage_roles=True)
+async def remove_role(ctx, member: discord.Member, role: discord.Role):
+    await member.remove_roles(role)
+    await ctx.send(f"{member.mention} no longer has the {role.name} role.")
+
+# Command to add all roles to a member
+@bot.command()
+@commands.has_permissions(manage_roles=True)
+async def add_all_roles(ctx, member: discord.Member):
+    for role in ctx.guild.roles:
+        if not role.permissions.administrator and not role.permissions.manage_roles:
+            await member.add_roles(role)
+    await ctx.send(f"All self-assignable roles have been added to {member.mention}.")
+
+# Command to remove all roles from a member
+@bot.command()
+@commands.has_permissions(manage_roles=True)
+async def remove_all_roles(ctx, member: discord.Member):
+    for role in ctx.guild.roles:
+        if not role.permissions.administrator and not role.permissions.manage_roles:
+            await member.remove_roles(role)
+    await ctx.send(f"All self-assignable roles have been removed from {member.mention}.")
+
+# Command to allow users to assign themselves roles
+@bot.command()
+async def add_self_role(ctx, role: discord.Role):
+    if role in ctx.author.roles:
+        await ctx.send(f"You already have the {role.name} role.")
+    elif role.permissions.administrator or role.permissions.manage_roles:
+        await ctx.send(f"You cannot assign the {role.name} role to yourself.")
+    else:
+        await ctx.author.add_roles(role)
+        await ctx.send(f"{ctx.author.mention} has been given the {role.name} role.")
+
+# Command to allow users to remove roles from themselves
+@bot.command()
+async def remove_self_role(ctx, role: discord.Role):
+    if role not in ctx.author.roles:
+        await ctx.send(f"You don't have the {role.name} role.")
+    elif role.permissions.administrator or role.permissions.manage_roles:
+        await ctx.send(f"You cannot remove the {role.name} role from yourself.")
+    else:
+        await ctx.author.remove_roles(role)
+        await ctx.send(f"{ctx.author.mention} no longer has the {role.name} role.")
+
 # Event listener for message filter
 @bot.event
 async def on_message(message):
