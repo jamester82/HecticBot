@@ -35,6 +35,6 @@ Your bot should now be up and running on your Discord server!
 
 - Moderation commands: Kick, ban
 - Message filtering: Swear word filter, link filter, spam filter
-- ... (add any other features your bot has)
+ 
 
 
