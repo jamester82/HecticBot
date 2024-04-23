@@ -6,7 +6,7 @@ This is a Discord bot that performs various tasks such as moderation and message
 
 ### 1. Clone the repository
 
-git clone https://github.com/yourusername/your-repository.git
+git clone https://github.com/jamester82/HecticBot.git
 
 
 ### 2. Install dependencies
