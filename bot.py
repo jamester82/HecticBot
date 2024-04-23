@@ -64,6 +64,12 @@ async def ban(ctx, member: discord.Member, *, reason="No reason provided"):
 async def say(ctx, *, message):
     await ctx.send(message)
 
+# Command to check bot status
+@bot.command()
+async def ping(ctx):
+    latency = round(bot.latency * 1000)  # Convert to milliseconds
+    await ctx.send(f'Pong! Latency: {latency}ms')
+
 # Event listener for message filter
 @bot.event
 async def on_message(message):
@@ -111,6 +117,3 @@ async def on_message(message):
 
 # Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
-
-
-
