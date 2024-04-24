@@ -10,8 +10,12 @@ load_dotenv()
 with open("swearwords.txt", "r") as file:
     swear_words = [word.strip().lower() for word in file.readlines()]
 
+# Define intents
+intents = discord.Intents.default()
+intents.members = True  # Enable member-related intents
+
 # Bot prefix
-bot = commands.Bot(command_prefix="/")
+bot = commands.Bot(command_prefix="/", intents=intents)
 
 # Filters toggle
 filters_enabled = False
@@ -171,3 +175,4 @@ async def on_message(message):
 
 # Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
+
